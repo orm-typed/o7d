@@ -4,7 +4,7 @@ import { SelectResult } from "../../src/type/SelectResult";
 
 export function Fake<TModel extends Model>() {
   return function GetResult<TInput extends SelectInput<TModel>>(
-    input: TInput
+    _input: TInput
   ): SelectResult<TModel, TInput> {
     throw new Error("Not implemented");
   };

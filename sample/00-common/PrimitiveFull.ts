@@ -1,7 +1,7 @@
-import { ExpandRecursively } from "./ExpandRecursively";
-import { Model } from "./Model";
-import { PrimitivePropertyBase } from "./PrimitivePropertyBase";
-import { PrimitiveTypeMap } from "./PrimitiveType";
+import { ExpandRecursively } from "../../src/type/ExpandRecursively";
+import { Model } from "../../src/type/Model";
+import { PrimitivePropertyBase } from "../../src/type/PrimitivePropertyBase";
+import { PrimitiveTypeMap } from "../../src/type/PrimitiveType";
 
 export type PrimitiveFull<T extends Model> = ExpandRecursively<{
   [K in keyof T["primitiveFields"]]-?: K extends keyof T["primitiveFields"]

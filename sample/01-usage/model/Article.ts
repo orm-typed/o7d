@@ -1,3 +1,4 @@
+import { ModelDefinition } from "../../../src/type/ModelDefinition";
 import { ModelByFields } from "../../00-common/ModelByFields";
 
 import { Comment } from "./Comment";
@@ -7,7 +8,7 @@ export interface ArticlePrimitiveFields {
   id: { type: "Int"; defaultSelected: true };
   authorId: { type: "Int"; defaultSelected: true };
   content: { type: "String"; defaultSelected: true };
-  commentCountCache: { type: "Int"; defaultSelected: false };
+  viewCount: { type: "Int"; defaultSelected: false };
 }
 
 export interface ArticleRelationFields {
@@ -20,3 +21,26 @@ export type Article = ModelByFields<
   ArticlePrimitiveFields,
   ArticleRelationFields
 >;
+
+export const Article: ModelDefinition<Article> = {
+  primitiveFields: {
+    id: { type: "Int", defaultSelected: true },
+    authorId: { type: "Int", defaultSelected: true },
+    content: { type: "String", defaultSelected: true },
+    viewCount: { type: "Int" },
+  },
+  relationFields: {
+    author: {
+      type: "n:1 - this reference",
+      model: User,
+      thisFields: ["authorId"],
+      othersFields: ["id"],
+    },
+    comments: {
+      type: "1:n - other references",
+      model: Comment,
+      thisFields: ["id"],
+      othersFields: ["articleId"],
+    },
+  },
+};
