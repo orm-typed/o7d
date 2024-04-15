@@ -1,0 +1,15 @@
+{
+  "name": "o7d",
+  "private": true,
+  "version": "0.0.0",
+  "description": "orm-typed",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orm-typed/o7d.git"
+  },
+  "author": "Juyeong Maing <mjy9088@naver.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
