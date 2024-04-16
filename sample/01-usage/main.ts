@@ -3,24 +3,24 @@ import { Fake } from "../00-common/Fake";
 import { PrimitiveFull } from "../00-common/PrimitiveFull";
 import { TypeIs } from "../00-common/TypeIs";
 import { Article } from "./model/Article";
-import { Comment } from "./model/Comment";
+import { Comment, CommentPrototype } from "./model/Comment";
 import { User, UserPrototype } from "./model/User";
 
-const User = Fake<User>();
+const user = Fake<User>();
 
-const userPrimitive = User(true);
+const userPrimitive = user(true);
 TypeIs<typeof userPrimitive, Primitive<User> & UserPrototype>("same");
 
-const userPrimitiveFull = User({ createTime: true, email: true });
+const userPrimitiveFull = user({ createTime: true, email: true });
 TypeIs<typeof userPrimitiveFull, PrimitiveFull<User> & UserPrototype>("same");
 
-const userWithArticles = User({ articles: true });
+const userWithArticles = user({ articles: true });
 TypeIs<
   typeof userWithArticles,
   Primitive<User> & UserPrototype & Record<"articles", Primitive<Article>[]>
 >("same");
 
-const userNested = User({
+const userNested = user({
   email: true,
   articles: { author: true, comments: { author: true } },
 });
@@ -36,6 +36,7 @@ TypeIs<
         Record<
           "comments",
           (Primitive<Comment> &
+            CommentPrototype &
             Record<"author", (Primitive<User> & UserPrototype) | null>)[]
         >)[]
     >
