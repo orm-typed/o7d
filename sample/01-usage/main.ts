@@ -11,7 +11,12 @@ const user = Fake<User>();
 const userPrimitive = user(true);
 TypeIs<typeof userPrimitive, Primitive<User> & UserPrototype>("same");
 
-const userPrimitiveFull = user({ createTime: true, email: true });
+const userPrimitiveFull = user({
+  createTime: true,
+  email: true,
+  __fieldStartsWithUnderscore: true,
+  ___fieldStartsWithDoubleUnderscores: true,
+});
 TypeIs<typeof userPrimitiveFull, PrimitiveFull<User> & UserPrototype>("same");
 
 const userWithArticles = user({ articles: true });

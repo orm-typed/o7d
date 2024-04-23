@@ -1,3 +1,4 @@
+import { LeadingDoubleUnderscoresToUnderscore } from "./LeadingDoubleUnderscoresToUnderscore";
 import { Model } from "./Model";
 import { Primitive } from "./Primitive";
 import { PrimitivePropertyBase } from "./PrimitivePropertyBase";
@@ -16,7 +17,9 @@ export type SelectResult<
   TInput extends true
     ? Primitive<TModel>
     : Primitive<TModel> & {
-        [K in keyof TInput]: K extends keyof TModel["primitiveFields"]
+        [K in LeadingDoubleUnderscoresToUnderscore<
+          keyof TInput
+        >]: K extends keyof TModel["primitiveFields"]
           ? NonNullable<
               TModel["primitiveFields"][K]
             > extends PrimitivePropertyBase
@@ -28,24 +31,26 @@ export type SelectResult<
             : never
           : K extends keyof TModel["relationFields"]
           ? NonNullable<TModel["relationFields"][K]> extends Model
-            ? TInput[K] extends SelectInput<
+            ? LeadingDoubleUnderscoresToUnderscore<TInput>[K] extends SelectInput<
                 NonNullable<TModel["relationFields"][K]>
               >
               ?
                   | SelectResult<
                       NonNullable<TModel["relationFields"][K]>,
-                      TInput[K]
+                      LeadingDoubleUnderscoresToUnderscore<TInput>[K]
                     >
                   | ({} extends Pick<TModel["relationFields"], K>
                       ? null
                       : never)
               : never
             : TModel["relationFields"][K] extends Model[]
-            ? TInput[K] extends SelectInput<TModel["relationFields"][K][number]>
+            ? LeadingDoubleUnderscoresToUnderscore<TInput>[K] extends SelectInput<
+                TModel["relationFields"][K][number]
+              >
               ?
                   | SelectResult<
                       TModel["relationFields"][K][number],
-                      TInput[K]
+                      LeadingDoubleUnderscoresToUnderscore<TInput>[K]
                     >[]
                   | ({} extends Pick<TModel["relationFields"], K>
                       ? null

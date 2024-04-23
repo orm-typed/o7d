@@ -11,6 +11,11 @@ export interface UserPrimitiveFields {
   deleteTime?: { type: "DateTime"; defaultSelected: true };
   email?: { type: "String"; defaultSelected: false };
   createTime: { type: "DateTime"; defaultSelected: false };
+  _fieldStartsWithUnderscore: { type: "String"; defaultSelected: false };
+  __fieldStartsWithDoubleUnderscores?: {
+    type: "String";
+    defaultSelected: false;
+  };
 }
 
 export interface UserRelationFields {
@@ -39,6 +44,8 @@ export const User: ModelDefinition<User> = {
     deleteTime: { type: "DateTime", defaultSelected: true, nullable: true },
     email: { type: "String", nullable: true },
     createTime: { type: "DateTime" },
+    _fieldStartsWithUnderscore: { type: "String" },
+    __fieldStartsWithDoubleUnderscores: { type: "String", nullable: true },
   },
   relationFields: {
     articles: {
