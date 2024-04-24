@@ -3,7 +3,7 @@ import { LeadingUnderscoreToDoubleUnderscores } from "./LeadingUnderscoreToDoubl
 import { Model } from "./Model";
 import { WithKey } from "./WithKey";
 
-export type SelectInput<T extends Model> =
+type SelectInputInternal<T extends Model> =
   | {
       [K in LeadingUnderscoreToDoubleUnderscores<
         | Extract<
@@ -27,3 +27,20 @@ export type SelectInput<T extends Model> =
         : never;
     }
   | true;
+
+export type SelectInput<T extends Model> =
+  | ({
+      _?: never;
+    } & SelectInputInternal<T>)
+  | {
+      _: SelectInputInternal<T>;
+      orderBy?: OrderByInput<T>;
+    };
+
+export type OrderByInput<T extends Model> =
+  | {
+      [K in keyof T["primitiveFields"]]: "asc" | "desc";
+    }
+  | {
+      [K in keyof T["primitiveFields"]]: "asc" | "desc";
+    }[];
