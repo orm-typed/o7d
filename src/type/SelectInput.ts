@@ -1,29 +1,25 @@
-import { LeadingDoubleUnderscoresToUnderscore } from "./LeadingDoubleUnderscoresToUnderscore";
 import { LeadingUnderscoreToDoubleUnderscores } from "./LeadingUnderscoreToDoubleUnderscores";
 import { Model } from "./Model";
 import { WithKey } from "./WithKey";
 
 type SelectInputInternal<T extends Model> =
   | {
-      [K in LeadingUnderscoreToDoubleUnderscores<
+      [K in
         | Extract<
             WithKey<T["primitiveFields"]>[keyof T["primitiveFields"]],
             { key: string; value?: { type: string; defaultSelected: false } }
           >["key"]
-        | keyof T["relationFields"]
-      >]?: LeadingDoubleUnderscoresToUnderscore<K> extends infer I
-        ? I extends keyof T["primitiveFields"]
-          ? true
-          : I extends keyof T["relationFields"]
-          ?
-              | true
-              | (NonNullable<T["relationFields"][I]> extends Model
-                  ? SelectInput<NonNullable<T["relationFields"][I]>>
-                  : never)
-              | (NonNullable<T["relationFields"][I]> extends Model[]
-                  ? SelectInput<NonNullable<T["relationFields"][I]>[number]>
-                  : never)
-          : never
+        | keyof T["relationFields"] as LeadingUnderscoreToDoubleUnderscores<K>]?: K extends keyof T["primitiveFields"]
+        ? true
+        : K extends keyof T["relationFields"]
+        ?
+            | true
+            | (NonNullable<T["relationFields"][K]> extends Model
+                ? SelectInput<NonNullable<T["relationFields"][K]>>
+                : never)
+            | (NonNullable<T["relationFields"][K]> extends Model[]
+                ? SelectInput<NonNullable<T["relationFields"][K]>[number]>
+                : never)
         : never;
     }
   | true;
