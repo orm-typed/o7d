@@ -2,7 +2,7 @@ import { ExpandRecursively } from "./ExpandRecursively";
 import { Model } from "./Model";
 import { PrimitivePropertyBase } from "./PrimitivePropertyBase";
 import { PrimitiveTypeMap } from "./PrimitiveType";
-import { WithKey } from "./WithKey";
+import { WithKey } from "./utils";
 
 export type Primitive<T extends Model> = ExpandRecursively<{
   [K in Extract<

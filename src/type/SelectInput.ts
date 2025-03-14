@@ -1,6 +1,6 @@
 import { LeadingUnderscoreToDoubleUnderscores } from "./LeadingUnderscoreToDoubleUnderscores";
 import { Model } from "./Model";
-import { WithKey } from "./WithKey";
+import { MaybeArray, UnwrapArray, WithKey } from "./utils";
 
 type SelectInputInternal<T extends Model> =
   | {
@@ -14,11 +14,8 @@ type SelectInputInternal<T extends Model> =
         : K extends keyof T["relationFields"]
         ?
             | true
-            | (NonNullable<T["relationFields"][K]> extends Model
-                ? SelectInput<NonNullable<T["relationFields"][K]>>
-                : never)
-            | (NonNullable<T["relationFields"][K]> extends Model[]
-                ? SelectInput<NonNullable<T["relationFields"][K]>[number]>
+            | (UnwrapArray<NonNullable<T["relationFields"][K]>> extends Model
+                ? SelectInput<UnwrapArray<NonNullable<T["relationFields"][K]>>>
                 : never)
         : never;
     }
@@ -33,10 +30,6 @@ export type SelectInput<T extends Model> =
       orderBy?: OrderByInput<T>;
     };
 
-export type OrderByInput<T extends Model> =
-  | {
-      [K in keyof T["primitiveFields"]]: "asc" | "desc";
-    }
-  | {
-      [K in keyof T["primitiveFields"]]: "asc" | "desc";
-    }[];
+export type OrderByInput<T extends Model> = MaybeArray<{
+  [K in keyof T["primitiveFields"]]: "asc" | "desc";
+}>;

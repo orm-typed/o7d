@@ -25,9 +25,9 @@ export type ModelByFields<
   TRelationFields extends {}
 > = string extends TName
   ? { message: "Error: no name given" }
-  : [keyof TPrimitiveFields & keyof TRelationFields] extends [never]
+  : [Extract<keyof TPrimitiveFields, keyof TRelationFields>] extends [never]
   ? Expand2<ModelByFieldsInternal<TName, TPrimitiveFields, TRelationFields>>
   : {
       message: "Error: key overlap";
-      keys: keyof TRelationFields & keyof TPrimitiveFields;
+      keys: Extract<keyof TRelationFields, keyof TPrimitiveFields>;
     };

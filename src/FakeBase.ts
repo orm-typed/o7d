@@ -1,6 +1,6 @@
 import { PrimitivePropertyBase } from "./type/PrimitivePropertyBase";
 import { PrimitiveTypeMap } from "./type/PrimitiveType";
-import { WithKey } from "./type/WithKey";
+import { WithKey } from "./type/utils";
 
 type InferPrimitivePropertyBase<
   T extends Partial<Record<keyof T, PrimitivePropertyBase>>
