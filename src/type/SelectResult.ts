@@ -62,11 +62,11 @@ type SelectResultInternal<
         : never;
     };
 
-type SelectResult<
+export type SelectResult<
   TModel extends Model,
   TInput extends SelectInput<TModel>
 > = TInput extends infer I
-  ? I extends true | { _?: never }
+  ? I extends true | (object & { _?: never })
     ? I extends SelectInputInternal<TModel>
       ? AttachPrototype<TModel, SelectResultInternal<TModel, I>>
       : never
